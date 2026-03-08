@@ -43,7 +43,7 @@ Maintainers may remove, edit, or reject comments, commits, issues, or other cont
 ## Reporting Issues
 
 Instances of abusive, harassing, or otherwise unacceptable behaviour may be reported to the project maintainers via GitHub issues or direct
-communication at mailto:admin@meisterware.com
+communication at admin@meisterware.com
 
 All reports will be reviewed and investigated promptly and fairly.
 
