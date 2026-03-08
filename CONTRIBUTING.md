@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to OpenPAKT.
 
-OpenPAKT is an open specification for representing AI agent security findings, testing scenarios, and CI policy semantics.
+OpenPAKT is an open specification for representing AI agent security findings, security testing scenarios, and CI policy semantics.
 
 ## Ways to Contribute
 
@@ -46,7 +46,7 @@ Please ensure that:
 
 Contributions should be developed in a dedicated branch and submitted via a pull request to the `main` branch.
 
-Branches should use clear and descriptive names.
+To keep the repository consistent and easy to navigate, contributors should follow the recommended branch naming conventions.
 
 Recommended formats:
 
@@ -54,6 +54,7 @@ Recommended formats:
 - `spec/<short-slug>` for specification drafting or updates
 - `docs/<short-slug>` for documentation or governance changes
 - `chore/<short-slug>` for repository maintenance
+- `fix/<short-slug>` for bug fixes
 
 Examples:
 
@@ -63,14 +64,18 @@ issue/4-scenario-format
 spec/finding-taxonomy-refinement
 docs/spec-governance
 chore/add-pr-template
-```
+fix/schema-validation-error
+````
 
 Guidelines:
 
-- use **lowercase**
+- use **lowercase** characters
 - use **kebab-case** (`-`) to separate words
 - keep branch names **short and descriptive**
 - prefer linking branches to an **existing GitHub issue**
+- include the **GitHub issue number** when using the `issue/` prefix
+
+Branch names that do not follow these conventions may be rejected by repository rules.
 
 All changes should be submitted via a **pull request** and reviewed before merging into `main`.
 

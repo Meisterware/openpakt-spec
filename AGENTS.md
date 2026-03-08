@@ -76,6 +76,8 @@ Example files may be added to demonstrate specification usage.
 
 Examples should remain **minimal and implementation-agnostic**.
 
+Examples must not introduce language-specific code or runtime dependencies.
+
 ---
 
 ## Disallowed Drift
@@ -136,6 +138,8 @@ Top-level documents may include:
 - GOVERNANCE.md
 - ROADMAP.md
 
+Governance files should only be modified when changes are explicitly requested by a GitHub issue or milestone update.
+
 Agents should prefer **editing existing files** instead of creating new files unless required by an issue or specification change.
 
 ---
@@ -158,16 +162,22 @@ Preferred branch naming patterns:
 - `spec/<short-slug>`
 - `docs/<short-slug>`
 - `chore/<short-slug>`
+- `fix/<short-slug>`
+
+Use the most specific branch type when possible.
 
 Examples:
 
 ```text
 issue/1-report-schema
 issue/4-scenario-format
+spec/severity-model
 docs/spec-governance
+chore/repository-cleanup
+fix/schema-validation-error
 ```
 
-Branch names should be lowercase and use kebab-case.
+Branch names should be lowercase, use kebab-case and follow the repository branch naming rules.
 
 Agents should review changes for:
 
@@ -175,6 +185,8 @@ Agents should review changes for:
 - terminology consistency
 - specification clarity
 - unnecessary complexity
+
+Agents must not rename existing taxonomy identifiers or schema fields unless explicitly required by a specification update.
 
 ---
 
