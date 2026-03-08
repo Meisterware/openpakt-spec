@@ -4,10 +4,24 @@
 ![Specification](https://img.shields.io/badge/spec-v0.1-blue)
 ![Status](https://img.shields.io/badge/status-draft-orange)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
+![Roadmap](https://img.shields.io/badge/roadmap-public-blue)
 
 OpenPAKT is an open specification for representing **AI agent security findings, security testing scenarios, and CI validation results** in a portable format.
 
 The goal is to provide a **common language for AI agent security testing across tools, programming languages, and CI systems.**
+
+> ⚠️ **Status:** OpenPAKT is currently under active development and evolving toward the **v0.1 Core Specification milestone**.  
+> Feedback and contributions are welcome.
+
+---
+
+# Specification Status
+
+OpenPAKT is currently in **Draft status** and evolving toward the **v0.1 Core Specification milestone**.
+
+The v0.1 release will define the minimal interoperable structure for representing AI agent security findings, attack scenarios, and CI policy evaluation results.
+
+Until v1.0, the specification may evolve as the ecosystem matures.
 
 ---
 
