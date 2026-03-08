@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report an error, inconsistency, or defect in the OpenPAKT specification, examples, or repository documentationnah
+about: Report an error, inconsistency, or defect in the OpenPAKT specification, examples, or repository documentation
 title: "[Bug] "
 labels: bug, spec
 ---
