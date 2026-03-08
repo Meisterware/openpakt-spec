@@ -8,6 +8,8 @@ The specification evolves through versioned releases.
 
 Changes are proposed via GitHub issues and pull requests and are reviewed by maintainers before inclusion.
 
+Maintainers make the final decision on whether a change is accepted into the specification.
+
 ## Versioning
 
 OpenPAKT follows **semantic versioning**.
@@ -18,4 +20,4 @@ OpenPAKT follows **semantic versioning**.
 
 ## Reference Implementation
 
-The Detektor CLI serves as the reference implementation for the OpenPAKT specification.
+The **Detektor CLI** serves as the reference implementation for the OpenPAKT specification.
