@@ -167,7 +167,7 @@ OpenPAKT follows **semantic versioning** for the specification.
 
 Current version:
 
-**v0.1 – Initial Draft**
+### v0.1 – Initial Draft
 
 ---
 
