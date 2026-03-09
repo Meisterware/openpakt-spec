@@ -65,7 +65,7 @@ spec/finding-taxonomy-refinement
 docs/spec-governance
 chore/add-pr-template
 fix/schema-validation-error
-````
+```
 
 Guidelines:
 
@@ -96,4 +96,3 @@ Please keep contributions consistent with these conventions.
 All contributors must follow the project's [Code of Conduct](CODE_OF_CONDUCT.md).
 
 We welcome constructive discussion and contributions that help improve the clarity and usefulness of the OpenPAKT specification.
-

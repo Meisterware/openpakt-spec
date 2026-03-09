@@ -117,7 +117,7 @@ Example:
   },
   "findings": []
 }
-````
+```
 
 ---
 
@@ -127,9 +127,9 @@ Scenario examples should use YAML.
 
 Guidelines:
 
-* 2-space indentation
-* lowercase snake_case keys
-* multiline text may use block format (`|`)
+- 2-space indentation
+- lowercase snake_case keys
+- multiline text may use block format (`|`)
 
 Example:
 
@@ -182,15 +182,15 @@ Field names must remain stable once published in a specification version.
 
 Examples should be:
 
-* minimal
-* readable
-* implementation-agnostic
+- minimal
+- readable
+- implementation-agnostic
 
 Examples must not include:
 
-* proprietary system names
-* vendor-specific APIs
-* environment-specific configuration
+- proprietary system names
+- vendor-specific APIs
+- environment-specific configuration
 
 Examples should illustrate **specification behaviour only**, not implementation details.
 
@@ -200,9 +200,9 @@ Examples should illustrate **specification behaviour only**, not implementation 
 
 When editing specification documents:
 
-* prefer modifying existing sections
-* keep terminology consistent
-* maintain compatibility with existing examples
+- prefer modifying existing sections
+- keep terminology consistent
+- maintain compatibility with existing examples
 
 Major structural changes should be discussed in a GitHub issue before implementation.
 
@@ -212,9 +212,9 @@ Major structural changes should be discussed in a GitHub issue before implementa
 
 The OpenPAKT specification prioritises:
 
-* clarity
-* minimalism
-* interoperability
-* stability
+- clarity
+- minimalism
+- interoperability
+- stability
 
 This style guide ensures all contributions remain consistent with those principles.
