@@ -1,0 +1,23 @@
+{
+  "_note": "Placeholder example so CI validation can run. The canonical example will be defined in Issue #6.",
+  "schema_version": "0.1",
+  "scan": {
+    "tool": {
+      "name": "example-scanner",
+      "version": "0.0.0"
+    },
+    "timestamp": "2026-03-09T00:00:00Z"
+  },
+  "target": {
+    "type": "example",
+    "path": "example-target"
+  },
+  "summary": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "informational": 0
+  },
+  "findings": []
+}
