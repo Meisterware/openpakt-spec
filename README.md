@@ -1,5 +1,6 @@
 # OpenPAKT
-### Open Protocol for Agent Knowledge Trust
+
+## Open Protocol for Agent Knowledge Trust
 
 ![Specification](https://img.shields.io/badge/spec-v0.1-blue)
 ![Status](https://img.shields.io/badge/status-draft-orange)
@@ -15,7 +16,7 @@ The goal is to provide a **common language for AI agent security testing across 
 
 ---
 
-# Specification Status
+## Specification Status
 
 OpenPAKT is currently in **Draft status** and evolving toward the **v0.1 Core Specification milestone**.
 
@@ -25,7 +26,7 @@ Until v1.0, the specification may evolve as the ecosystem matures.
 
 ---
 
-# Why OpenPAKT
+## Why OpenPAKT
 
 As AI agents increasingly interact with tools, APIs, and external systems, **security testing has become a critical requirement**. However, current approaches to agent security scanning are fragmented across different frameworks, evaluation methods, and proprietary formats.
 
@@ -40,11 +41,11 @@ OpenPAKT addresses this challenge by defining a **portable, interoperable specif
 
 ---
 
-# Architecture Overview
+## Architecture Overview
 
 OpenPAKT defines the **portable artifacts produced by agent security scanners** and consumed by CI pipelines.
 
-```
+```text
 OpenPAKT Scenario
         │
         ▼
@@ -75,7 +76,7 @@ OpenPAKT acts as the **interoperability layer between scanners and CI systems.**
 
 ---
 
-# Scope
+## Scope
 
 OpenPAKT **v0.1** focuses on defining a minimal interoperable structure for:
 
@@ -87,7 +88,7 @@ OpenPAKT **v0.1** focuses on defining a minimal interoperable structure for:
 
 ---
 
-# Design Principles
+## Design Principles
 
 OpenPAKT is designed with the following principles:
 
@@ -99,11 +100,11 @@ OpenPAKT is designed with the following principles:
 
 ---
 
-# Specification
+## Specification
 
 The OpenPAKT specification is defined in the `spec/` directory.
 
-```
+```text
 spec/
   report-schema.md
   taxonomy.md
@@ -116,7 +117,7 @@ Each component defines a part of the OpenPAKT security testing model.
 
 ---
 
-# Roadmap
+## Roadmap
 
 OpenPAKT evolves through milestone-based specification releases.
 
@@ -160,17 +161,17 @@ Planned components:
 
 ---
 
-# Versioning
+## Versioning
 
 OpenPAKT follows **semantic versioning** for the specification.
 
 Current version:
 
-**v0.1 – Initial Draft**
+### v0.1 – Initial Draft
 
 ---
 
-# Examples
+## Examples
 
 Example OpenPAKT reports and scenarios are available in the `examples/` directory.
 
@@ -178,7 +179,7 @@ These examples demonstrate how security findings and attack scenarios can be rep
 
 ---
 
-# Governance
+## Governance
 
 OpenPAKT is an open specification developed under the **Meisterware** organisation.
 
@@ -190,13 +191,13 @@ The specification evolves through:
 
 ---
 
-# Vision
+## Vision
 
 To become the **common interoperability layer for AI agent security testing.**
 
 ---
 
-# Reference Implementation
+## Reference Implementation
 
 **Detektor** is the reference CLI implementation of the OpenPAKT specification.
 
@@ -204,7 +205,7 @@ Detektor demonstrates how OpenPAKT findings, scenarios, and CI policy validation
 
 ---
 
-# Project Documents
+## Project Documents
 
 - [Specification](spec/index.md)
 - [Contributing Guide](CONTRIBUTING.md)

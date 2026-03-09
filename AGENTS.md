@@ -157,6 +157,7 @@ Pull requests should:
 Pull requests must use the repository PR template.
 
 Agents creating pull requests should:
+
 - populate the Summary section
 - select the correct Type of change
 - select the correct Specification classification
