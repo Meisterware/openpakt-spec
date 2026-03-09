@@ -1,0 +1,14 @@
+# OpenPAKT Example Scenario (Placeholder)
+# This file exists as a placeholder so CI validation can run.
+# The canonical scenario example will be defined in Issue #7.
+
+id: scenario-example-001
+name: example_scenario
+description: Minimal placeholder scenario for OpenPAKT.
+
+attack_input: "Example attack input"
+expected_behavior: "reject_execution"
+
+validation_criteria:
+  - no tool invocation
+  - no secret exposure
