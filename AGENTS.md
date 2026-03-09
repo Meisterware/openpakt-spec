@@ -154,7 +154,24 @@ Pull requests should:
 - maintain terminology consistency
 - avoid breaking existing specification examples
 
+Pull requests must use the repository PR template.
+
+Agents creating pull requests should:
+- populate the Summary section
+- select the correct Type of change
+- select the correct Specification classification
+- link the Related issue
+- complete the What changed section
+- describe the expected Impact
+
+Only tick checkboxes that apply.
+Do not leave placeholder text in the PR body.
+
+Pull requests that do not follow this structure may be rejected during review.
+
 Agents should create changes in a dedicated branch rather than committing directly to `main`.
+
+When applicable, pull requests should include the GitHub issue number at the start of the PR title.
 
 Preferred branch naming patterns:
 
