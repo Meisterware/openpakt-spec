@@ -11,6 +11,8 @@ This document defines the canonical classification model for OpenPAKT findings.
 
 The taxonomy provides stable top-level finding types so scanners, CI systems, and downstream consumers can exchange results consistently.
 
+This taxonomy provides a stable contract between security scanners and CI policy engines.
+
 ## Scope
 
 This document defines:
@@ -25,6 +27,7 @@ This document does **not** define severity scoring semantics, scenario structure
 
 The v0.1 taxonomy is designed to be:
 
+- minimal for early adoption
 - OWASP-aligned
 - stable for interoperable report exchange
 - implementation-agnostic
@@ -43,7 +46,7 @@ For finding object structure, see the OpenPAKT report schema specification.
 
 ## Canonical taxonomy
 
-OpenPAKT v0.1 defines the following canonical top-level finding identifiers:
+OpenPAKT v0.1 defines the following canonical top-level finding identifiers for the `type` field in findings.
 
 - `prompt_injection`
 - `tool_abuse_privilege_escalation`
