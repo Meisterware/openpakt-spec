@@ -164,7 +164,7 @@ The evidence object is intentionally minimal in v0.1.
   "findings": [
     {
       "id": "finding-001",
-      "type": "unsafe-tool-execution",
+      "type": "tool_abuse_privilege_escalation",
       "severity": "high",
       "component": "agent-config.yaml",
       "description": "Tool execution lacks command allow-list constraints.",
