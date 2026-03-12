@@ -33,7 +33,7 @@
     },
     {
       "id": "OPKT-2026-0002",
-      "type": "unauthorized_tool_execution",
+      "type": "tool_abuse_privilege_escalation",
       "severity": "critical",
       "component": "steps.agent_tools",
       "description": "The agent can invoke destructive shell commands without an explicit allow-list or approval gate.",
