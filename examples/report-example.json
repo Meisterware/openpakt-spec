@@ -1,23 +1,47 @@
 {
-  "_note": "Placeholder example so CI validation can run. The canonical example will be defined in Issue #6.",
   "schema_version": "0.1",
   "scan": {
     "tool": {
-      "name": "example-scanner",
-      "version": "0.0.0"
+      "name": "detektor",
+      "version": "0.1.0"
     },
-    "timestamp": "2026-03-09T00:00:00Z"
+    "timestamp": "2026-03-08T10:00:00Z"
   },
   "target": {
-    "type": "example",
-    "path": "example-target"
+    "type": "workflow",
+    "path": ".github/workflows/agent-review.yml"
   },
   "summary": {
-    "critical": 0,
-    "high": 0,
+    "critical": 1,
+    "high": 1,
     "medium": 0,
     "low": 0,
     "informational": 0
   },
-  "findings": []
+  "findings": [
+    {
+      "id": "OPKT-2026-0001",
+      "type": "prompt_injection",
+      "severity": "high",
+      "component": "steps.review_prompt",
+      "description": "Untrusted issue content is inserted directly into the agent prompt without isolation or instruction boundary checks.",
+      "evidence": {
+        "summary": "Prompt template concatenates user-controlled issue body into system-level instructions.",
+        "location": ".github/workflows/agent-review.yml:42-56",
+        "snippet": "review_prompt: |\n  You are the release assistant.\n  {{ github.event.issue.body }}"
+      }
+    },
+    {
+      "id": "OPKT-2026-0002",
+      "type": "unauthorized_tool_execution",
+      "severity": "critical",
+      "component": "steps.agent_tools",
+      "description": "The agent can invoke destructive shell commands without an explicit allow-list or approval gate.",
+      "evidence": {
+        "summary": "Shell tool is enabled with unrestricted command execution in CI context.",
+        "location": ".github/workflows/agent-review.yml:72-88",
+        "snippet": "tools:\n  shell:\n    enabled: true\n    allowlist: []"
+      }
+    }
+  ]
 }
