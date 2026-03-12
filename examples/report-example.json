@@ -9,7 +9,7 @@
   },
   "target": {
     "type": "workflow",
-    "path": ".github/workflows/agent-review.yml"
+    "path": "ci/agent-review-workflow.yaml"
   },
   "summary": {
     "critical": 1,
@@ -24,11 +24,11 @@
       "type": "prompt_injection",
       "severity": "high",
       "component": "steps.review_prompt",
-      "description": "Untrusted issue content is inserted directly into the agent prompt without isolation or instruction boundary checks.",
+      "description": "Untrusted task content is inserted directly into the agent prompt without isolation or instruction boundary checks.",
       "evidence": {
-        "summary": "Prompt template concatenates user-controlled issue body into system-level instructions.",
-        "location": ".github/workflows/agent-review.yml:42-56",
-        "snippet": "review_prompt: |\n  You are the release assistant.\n  {{ github.event.issue.body }}"
+        "summary": "Prompt template concatenates user-provided task text into high-trust instructions.",
+        "location": "ci/agent-review-workflow.yaml:42-56",
+        "snippet": "review_prompt: |\n  You are the release assistant.\n  {{ input.task_text }}"
       }
     },
     {
@@ -39,7 +39,7 @@
       "description": "The agent can invoke destructive shell commands without an explicit allow-list or approval gate.",
       "evidence": {
         "summary": "Shell tool is enabled with unrestricted command execution in CI context.",
-        "location": ".github/workflows/agent-review.yml:72-88",
+        "location": "ci/agent-review-workflow.yaml:72-88",
         "snippet": "tools:\n  shell:\n    enabled: true\n    allowlist: []"
       }
     }
