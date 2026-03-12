@@ -74,7 +74,7 @@ An OpenPAKT v0.1 report has the following top-level fields:
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `tool` | object | Yes | Scanner identity and version. |
-| `timestamp` | string | Yes | Scan completion timestamp (RFC 3339 UTC recommended). |
+| `timestamp` | string | Yes | Scan completion timestamp. |
 
 ### `scan.tool` object
 
@@ -88,7 +88,7 @@ An OpenPAKT v0.1 report has the following top-level fields:
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `type` | string | Yes | Target category (for example `repository`, `agent-config`, `workflow`). |
-| `path` | string | Yes | Target identifier or path as provided by the scanner. |
+| `path` | string | Yes | Target identifier or path as reported by the scanner. |
 
 ### `summary` object
 
@@ -125,6 +125,8 @@ A finding object includes the following fields:
 | `context` | object | No | Additional structured context useful for triage. |
 | `references` | array | No | Related URLs, document references, or external identifiers relevant to the finding. |
 | `metadata` | object | No | Additional implementation-agnostic key/value metadata. |
+
+Severity values correspond to the OpenPAKT severity model defined in the severity specification.
 
 ### `evidence` object
 
