@@ -39,8 +39,9 @@ The v0.1 report schema is designed to be:
 - An OpenPAKT report **MUST** be valid JSON.
 - An OpenPAKT report **MUST** include all required fields defined in this document.
 - Field names **MUST** use `snake_case`.
-- Producers **SHOULD** preserve deterministic key ordering in generated reports.
-- Producers **SHOULD** use RFC 3339 UTC timestamps for `scan.timestamp`.
+- Producers **MAY** use stable key ordering for readability and diff friendliness.
+- Producers **MUST** emit `scan.timestamp` as an RFC 3339 timestamp.
+- Producers **SHOULD** use UTC expressed with `Z` for `scan.timestamp`.
 
 ## Top-level structure
 
@@ -73,7 +74,7 @@ An OpenPAKT v0.1 report has the following top-level fields:
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `tool` | object | Yes | Scanner identity and version. |
-| `timestamp` | string | Yes | Scan completion timestamp (RFC 3339 UTC recommended). |
+| `timestamp` | string | Yes | Scan completion timestamp. |
 
 ### `scan.tool` object
 
@@ -87,27 +88,29 @@ An OpenPAKT v0.1 report has the following top-level fields:
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `type` | string | Yes | Target category (for example `repository`, `agent-config`, `workflow`). |
-| `path` | string | Yes | Target identifier or path as provided by the scanner. |
+| `path` | string | Yes | Target identifier or path as reported by the scanner. |
 
 ### `summary` object
 
-All fields below are required integer counters.
+The `summary` object is a derived aggregate of the `findings` array.
 
-| Field |
-|---|
-| `critical` |
-| `high` |
-| `medium` |
-| `low` |
-| `informational` |
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `critical` | integer | Yes | Count of findings where `severity` is `critical`. |
+| `high` | integer | Yes | Count of findings where `severity` is `high`. |
+| `medium` | integer | Yes | Count of findings where `severity` is `medium`. |
+| `low` | integer | Yes | Count of findings where `severity` is `low`. |
+| `informational` | integer | Yes | Count of findings where `severity` is `informational`. |
 
 `summary` values **MUST** match the severity distribution of entries in `findings`.
 
-If any `summary` counter differs from the number of findings with the corresponding `severity`, the report is invalid.
+If any `summary` counter differs from the number of findings with the corresponding `severity`, the report is non-conformant.
 
 ### `findings` array
 
 Each item in `findings` is a finding object.
+
+A valid OpenPAKT report may contain zero findings.
 
 A finding object includes the following fields:
 
@@ -120,8 +123,10 @@ A finding object includes the following fields:
 | `description` | string | Yes | Human-readable summary of the issue. |
 | `evidence` | object | Yes | Supporting evidence for the finding. |
 | `context` | object | No | Additional structured context useful for triage. |
-| `references` | array | No | Related links or identifiers relevant to the finding. |
+| `references` | array | No | Related URLs, document references, or external identifiers relevant to the finding. |
 | `metadata` | object | No | Additional implementation-agnostic key/value metadata. |
+
+Severity values correspond to the OpenPAKT severity model defined in the severity specification.
 
 ### `evidence` object
 
