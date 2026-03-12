@@ -101,7 +101,9 @@ All fields below are required integer counters.
 | `low` |
 | `informational` |
 
-`summary` values **SHOULD** match the severity distribution of entries in `findings`.
+`summary` values **MUST** match the severity distribution of entries in `findings`.
+
+If any `summary` counter differs from the number of findings with the corresponding `severity`, the report is invalid.
 
 ### `findings` array
 
