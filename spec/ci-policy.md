@@ -11,6 +11,8 @@ This document defines a minimal, deterministic model for evaluating OpenPAKT fin
 
 The v0.1 model provides a tool-independent way to determine pass/fail outcomes from normalized findings.
 
+CI policy evaluation operates on findings that conform to the OpenPAKT report schema.
+
 ## Scope
 
 This document defines:
@@ -44,7 +46,7 @@ The v0.1 CI policy evaluation semantics are designed to be:
 
 - CI policy evaluation **MUST** operate on normalized OpenPAKT findings.
 - Evaluators **MUST** use severity ordering from the OpenPAKT severity model: `critical > high > medium > low > informational`.
-- Policies **MUST** define `fail_on`.
+- Policies **MUST** define `fail_on`, and the value **MUST** be one of the severity levels defined in the OpenPAKT severity model.
 - Policies **MAY** define `ignore_severities`.
 - Policies **MAY** define `ignore_types`.
 - Evaluators **MUST** exclude ignored findings from fail/pass evaluation.
@@ -60,6 +62,8 @@ A v0.1 policy input uses three concepts:
 - `fail_on` (required): severity threshold for failing the build
 - `ignore_severities` (optional): list of severities to exclude
 - `ignore_types` (optional): list of finding `type` values to exclude
+
+Policy keys are case-sensitive and **MUST** appear exactly as defined.
 
 ### Example policy input (YAML)
 
@@ -83,7 +87,7 @@ evaluation proceeds as follows:
 1. Start with all findings in `F`.
 2. Remove findings where `severity` is listed in `P.ignore_severities`.
 3. Remove findings where `type` is listed in `P.ignore_types`.
-4. From the remaining findings, select findings with `severity >= P.fail_on` using OpenPAKT severity ordering.
+4. From the remaining findings, select findings with `severity >= P.fail_on` according to the severity ordering defined in this document.
 5. If one or more findings match step 4, decision is `fail`; otherwise decision is `pass`.
 
 If `ignore_severities` or `ignore_types` are omitted, evaluators **MUST** treat them as empty sets.
