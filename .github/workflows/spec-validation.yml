@@ -67,7 +67,9 @@ jobs:
 
           required_files=(
             "examples/report-example.json"
-            "examples/scenario-example.yaml"
+            "examples/scenario-prompt-injection-example.yaml"
+            "examples/scenario-tool-abuse-example.yaml"
+            "examples/scenario-data-exfiltration-example.yaml"
           )
 
           missing=0
@@ -107,9 +109,14 @@ jobs:
           python - <<'PY'
           import yaml
 
-          path = "examples/scenario-example.yaml"
-          with open(path, "r", encoding="utf-8") as f:
-            yaml.safe_load(f)
+          paths = [
+            "examples/scenario-prompt-injection-example.yaml",
+            "examples/scenario-tool-abuse-example.yaml",
+            "examples/scenario-data-exfiltration-example.yaml",
+          ]
 
-          print(f"✅ YAML syntax is valid: {path}")
+          for path in paths:
+            with open(path, "r", encoding="utf-8") as f:
+              yaml.safe_load(f)
+            print(f"✅ YAML syntax is valid: {path}")
           PY

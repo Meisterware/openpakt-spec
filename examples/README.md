@@ -72,7 +72,7 @@ When adding examples, please follow these guidelines:
 
 Recommended naming conventions:
 
-```
+```text
 scenario-<attack-type>-example.yaml
 report-<description>-example.json
 ```
