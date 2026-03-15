@@ -13,6 +13,10 @@ The v0.1 model provides a tool-independent way to determine pass/fail outcomes f
 
 CI policy evaluation operates on findings that conform to the OpenPAKT report schema.
 
+CI evaluation input is the normalized findings array from an OpenPAKT report (`report.findings`) or an equivalent extracted normalized findings list.
+
+OpenPAKT v0.1 CI policy evaluation applies to normalized findings and does **not** directly evaluate scenario definitions or scenario execution outcomes.
+
 ## Scope
 
 This document defines:
@@ -45,23 +49,24 @@ The v0.1 CI policy evaluation semantics are designed to be:
 ## Normative guidance
 
 - CI policy evaluation **MUST** operate on normalized OpenPAKT findings.
-- If input findings are malformed or not normalized (for example missing required finding fields or unsupported severity/type values), evaluators **MUST** stop evaluation with an `invalid-policy` result (no pass/fail decision is produced).
 - Evaluators **MUST** apply the severity ordering defined in the OpenPAKT severity model and referenced in this document.
 - Policies **MUST** define `fail_on`, and the value **MUST** be one of the severity levels defined in the OpenPAKT severity model.
-- Evaluators **MUST** treat policies with a missing `fail_on` key or unsupported `fail_on` value as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
+- Evaluators **MUST** treat policies with a missing `fail_on` key or unsupported `fail_on` value as invalid input and **MUST** stop evaluation with an `invalid-policy` result (no pass/fail decision is produced).
 - Policies **MAY** define `ignore_severities`.
 - Policies **MAY** define `ignore_types`.
 - Evaluators **MUST** ignore unknown top-level policy keys.
 - If present, `ignore_severities` **MUST** be an array of strings; entries that are not severity levels defined in the OpenPAKT severity model **MUST** be ignored.
 - If present, `ignore_types` **MUST** be an array of strings; entries that are not canonical taxonomy identifiers defined in the OpenPAKT taxonomy specification **MUST** be ignored.
-- Evaluators **MUST** treat non-array `ignore_severities`/`ignore_types` values as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
+- Evaluators **MUST** treat non-array `ignore_severities`/`ignore_types` values as invalid policy input and **MUST** stop evaluation with an `invalid-policy` result (no pass/fail decision is produced).
+- If evaluated findings input is malformed or not normalized (for example missing required finding fields or unsupported severity/type values), evaluators **MUST** stop evaluation with an `invalid-findings` result (no pass/fail decision is produced).
 - Evaluators **MUST** exclude ignored findings from fail/pass evaluation.
 - A build **MUST** fail if at least one non-ignored finding has severity at or above `fail_on`.
 - A build **MUST** pass if no non-ignored finding has severity at or above `fail_on`.
 - Evaluators **MUST NOT** use tool-specific extensions to alter the normative pass/fail outcome.
-- Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`/`invalid-policy`), `fail_on`, and matched finding identifiers.
+- Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`/`invalid-policy`/`invalid-findings`), `fail_on`, and matched finding identifiers.
 - Evaluators **MUST** emit matched finding identifiers in the original finding order from the evaluated findings list and **MUST** preserve duplicates.
 - For `invalid-policy` decisions, machine-readable results **MUST** set `fail_on` to `null` and matched finding identifiers to an empty array.
+- For `invalid-findings` decisions, machine-readable results **MUST** set `fail_on` to the validated policy threshold and matched finding identifiers to an empty array.
 
 ## Policy input model (v0.1)
 
@@ -90,15 +95,17 @@ ignore_types:
 Given:
 
 - a policy `P`
-- a normalized findings list `F`
+- a findings list `F` sourced from `report.findings` or an equivalent extracted normalized findings list
 
 evaluation proceeds as follows:
 
-1. Start with all findings in `F`.
-2. Remove findings where `severity` is listed in `P.ignore_severities`.
-3. Remove findings where `type` is listed in `P.ignore_types`.
-4. From the remaining findings, select findings with `severity >= P.fail_on` according to the severity ordering defined in this document.
-5. If one or more findings match step 4, decision is `fail`; otherwise decision is `pass`.
+1. Validate `P` according to this document. If invalid, decision is `invalid-policy` and evaluation stops.
+2. Validate `F` as normalized OpenPAKT findings. If invalid, decision is `invalid-findings` and evaluation stops.
+3. Start with all findings in `F`.
+4. Remove findings where `severity` is listed in `P.ignore_severities`.
+5. Remove findings where `type` is listed in `P.ignore_types`.
+6. From the remaining findings, select findings with `severity >= P.fail_on` according to the severity ordering defined in this document.
+7. If one or more findings match step 6, decision is `fail`; otherwise decision is `pass`.
 
 If `ignore_severities` or `ignore_types` are omitted, evaluators **MUST** treat them as empty sets.
 
@@ -134,6 +141,7 @@ Ignored findings:
 
 - **MUST NOT** contribute to threshold matching
 - **MAY** be reported as excluded in implementation-specific output
+- **MAY** include ignored finding identifiers and exclusion reasons in implementation-specific output
 - **MUST NOT** change the normative pass/fail rule
 
 ## Compatibility guidance
@@ -147,13 +155,14 @@ The CI platform exit status **MUST** be derived directly from the policy decisio
 - `pass` -> successful job/stage
 - `fail` -> failed job/stage
 - `invalid-policy` -> failed job/stage
+- `invalid-findings` -> failed job/stage
 
 ### External reporting compatibility
 
 When exporting results to external reporting formats, producers **SHOULD** preserve:
 
 - the original policy inputs used for evaluation
-- the final decision (`pass`/`fail`/`invalid-policy`)
+- the final decision (`pass`/`fail`/`invalid-policy`/`invalid-findings`)
 - the ordered list of matching non-ignored finding identifiers (preserving duplicates in original finding order)
 
 Export behavior **MUST NOT** redefine OpenPAKT evaluation semantics.
@@ -183,6 +192,25 @@ findings:
 | `fail_on: high`, `ignore_types: [prompt_injection]` | `f-001`, `f-003` | `f-001` | `fail` |
 | `fail_on: critical`, `ignore_severities: [informational]` | `f-001`, `f-002` | none | `pass` |
 | `fail_on: medium`, `ignore_severities: [high, medium]` | `f-003` | none | `pass` |
+
+### Invalid input example
+
+```yaml
+policy:
+  fail_on: high
+findings:
+  - id: f-001
+    type: tool_abuse_privilege_escalation
+    severity: severe
+```
+
+Expected machine-readable result:
+
+```yaml
+decision: invalid-findings
+fail_on: high
+matched_finding_ids: []
+```
 
 ## Versioning and compatibility notes
 
