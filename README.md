@@ -192,13 +192,13 @@ The objective of v1.0 is to provide a reliable and stable contract that tool ven
 
 ---
 
-# Versioning
+## Versioning
 
 OpenPAKT follows **Semantic Versioning** for specification releases.
 
 Current version:
 
-```
+```text
 v0.1.0 — Core Specification
 ```
 
