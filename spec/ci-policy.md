@@ -57,7 +57,7 @@ The v0.1 CI policy evaluation semantics are designed to be:
 - A build **MUST** fail if at least one non-ignored finding has severity at or above `fail_on`.
 - A build **MUST** pass if no non-ignored finding has severity at or above `fail_on`.
 - Evaluators **MUST NOT** use tool-specific extensions to alter the normative pass/fail outcome.
-- Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`), `fail_on`, and matched finding identifiers.
+- Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`/`invalid-policy`), `fail_on`, and matched finding identifiers.
 
 ## Policy input model (v0.1)
 
@@ -138,17 +138,18 @@ Ignored findings:
 
 Implementations in CI systems (for example GitHub Actions, GitLab CI, and Azure Pipelines) **SHOULD** preserve the normative evaluation order and pass/fail rules in this document.
 
-The CI platform exit status **SHOULD** be derived directly from the policy decision:
+The CI platform exit status **MUST** be derived directly from the policy decision:
 
 - `pass` -> successful job/stage
 - `fail` -> failed job/stage
+- `invalid-policy` -> failed job/stage
 
 ### External reporting compatibility
 
 When exporting results to external reporting formats, producers **SHOULD** preserve:
 
 - the original policy inputs used for evaluation
-- the final decision (`pass`/`fail`)
+- the final decision (`pass`/`fail`/`invalid-policy`)
 - the set of matching non-ignored finding identifiers
 
 Export behavior **MUST NOT** redefine OpenPAKT evaluation semantics.
