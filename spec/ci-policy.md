@@ -63,10 +63,10 @@ The v0.1 CI policy evaluation semantics are designed to be:
 - A build **MUST** fail if at least one non-ignored finding has severity at or above `fail_on`.
 - A build **MUST** pass if no non-ignored finding has severity at or above `fail_on`.
 - Evaluators **MUST NOT** use tool-specific extensions to alter the normative pass/fail outcome.
-- Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`/`invalid-policy`/`invalid-findings`), `fail_on`, and matched finding identifiers.
-- Evaluators **MUST** emit matched finding identifiers in the original finding order from the evaluated findings list and **MUST** preserve duplicates.
-- For `invalid-policy` decisions, machine-readable results **MUST** set `fail_on` to `null` and matched finding identifiers to an empty array.
-- For `invalid-findings` decisions, machine-readable results **MUST** set `fail_on` to the validated policy threshold and matched finding identifiers to an empty array.
+- Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`/`invalid-policy`/`invalid-findings`), `fail_on`, and `matched_finding_ids`.
+- Evaluators **MUST** emit `matched_finding_ids` in the original finding order from the evaluated findings list and **MUST** preserve duplicates.
+- For `invalid-policy` decisions, machine-readable results **MUST** set `fail_on` to `null` and `matched_finding_ids` to an empty array.
+- For `invalid-findings` decisions, machine-readable results **MUST** set `fail_on` to the validated policy threshold and `matched_finding_ids` to an empty array.
 
 ## Policy input model (v0.1)
 
@@ -163,7 +163,7 @@ When exporting results to external reporting formats, producers **SHOULD** prese
 
 - the original policy inputs used for evaluation
 - the final decision (`pass`/`fail`/`invalid-policy`/`invalid-findings`)
-- the ordered list of matching non-ignored finding identifiers (preserving duplicates in original finding order)
+- `matched_finding_ids` as the ordered list of matching non-ignored finding identifiers (preserving duplicates in original finding order)
 
 Export behavior **MUST NOT** redefine OpenPAKT evaluation semantics.
 
@@ -196,8 +196,6 @@ findings:
 ### Invalid input example
 
 ```yaml
-policy:
-  fail_on: high
 findings:
   - id: f-001
     type: tool_abuse_privilege_escalation
