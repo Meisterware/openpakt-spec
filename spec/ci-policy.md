@@ -50,14 +50,16 @@ The v0.1 CI policy evaluation semantics are designed to be:
 - Evaluators **MUST** treat policies with a missing `fail_on` key or unsupported `fail_on` value as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
 - Policies **MAY** define `ignore_severities`.
 - Policies **MAY** define `ignore_types`.
-- If present, `ignore_severities` values **MUST** be severity levels defined in the OpenPAKT severity model.
-- If present, `ignore_types` values **MUST** be canonical taxonomy identifiers defined in the OpenPAKT taxonomy specification.
-- Evaluators **MUST** treat policies containing unsupported `ignore_severities` or `ignore_types` values as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
+- Policies **MUST NOT** include unknown top-level policy keys.
+- If present, `ignore_severities` **MUST** be an array of strings, and values **MUST** be severity levels defined in the OpenPAKT severity model.
+- If present, `ignore_types` **MUST** be an array of strings, and values **MUST** be canonical taxonomy identifiers defined in the OpenPAKT taxonomy specification.
+- Evaluators **MUST** treat policies with unknown top-level keys, non-array `ignore_severities`/`ignore_types`, or unsupported `ignore_severities`/`ignore_types` values as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
 - Evaluators **MUST** exclude ignored findings from fail/pass evaluation.
 - A build **MUST** fail if at least one non-ignored finding has severity at or above `fail_on`.
 - A build **MUST** pass if no non-ignored finding has severity at or above `fail_on`.
 - Evaluators **MUST NOT** use tool-specific extensions to alter the normative pass/fail outcome.
 - Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`/`invalid-policy`), `fail_on`, and matched finding identifiers.
+- If matched finding identifiers contain duplicates, evaluators **MUST** preserve duplicates in the original finding order in the machine-readable result.
 
 ## Policy input model (v0.1)
 
@@ -67,9 +69,9 @@ A v0.1 policy input uses three concepts:
 - `ignore_severities` (optional): list of severities to exclude
 - `ignore_types` (optional): list of finding `type` values to exclude
 
-Policy keys are case-sensitive and **MUST** appear exactly as defined.
+Policy keys are case-sensitive and **MUST** appear exactly as defined. Unknown top-level keys are invalid in v0.1 policies.
 
-If present, `ignore_severities` and `ignore_types` values **MUST** use canonical identifiers defined by the severity and taxonomy specifications.
+If present, `ignore_severities` and `ignore_types` **MUST** be arrays of strings and values **MUST** use canonical identifiers defined by the severity and taxonomy specifications.
 
 ### Example policy input (YAML)
 
