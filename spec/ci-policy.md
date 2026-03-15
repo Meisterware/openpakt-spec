@@ -45,7 +45,7 @@ The v0.1 CI policy evaluation semantics are designed to be:
 ## Normative guidance
 
 - CI policy evaluation **MUST** operate on normalized OpenPAKT findings.
-- Evaluators **MUST** use severity ordering from the OpenPAKT severity model: `critical > high > medium > low > informational`.
+- Evaluators **MUST** apply the severity ordering defined in the OpenPAKT severity model and referenced in this document.
 - Policies **MUST** define `fail_on`, and the value **MUST** be one of the severity levels defined in the OpenPAKT severity model.
 - Policies **MAY** define `ignore_severities`.
 - Policies **MAY** define `ignore_types`.
