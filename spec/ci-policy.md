@@ -51,7 +51,7 @@ The v0.1 CI policy evaluation semantics are designed to be:
 - Policies **MAY** define `ignore_types`.
 - If present, `ignore_severities` values **MUST** be severity levels defined in the OpenPAKT severity model.
 - If present, `ignore_types` values **MUST** be canonical taxonomy identifiers defined in the OpenPAKT taxonomy specification.
-- Evaluators **MUST** treat policies containing unsupported `ignore_severities` or `ignore_types` values as invalid input and **MUST NOT** continue evaluation with those values.
+- Evaluators **MUST** treat policies containing unsupported `ignore_severities` or `ignore_types` values as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
 - Evaluators **MUST** exclude ignored findings from fail/pass evaluation.
 - A build **MUST** fail if at least one non-ignored finding has severity at or above `fail_on`.
 - A build **MUST** pass if no non-ignored finding has severity at or above `fail_on`.
