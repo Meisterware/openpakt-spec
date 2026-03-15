@@ -1,35 +1,176 @@
 Specification: OpenPAKT
-Document: CI Policy Semantics
+Document: CI Policy Evaluation Semantics
 Version: v0.1
 Status: Draft
 
-# OpenPAKT — CI Policy Semantics
+# OpenPAKT — CI Policy Evaluation Semantics
 
-## Overview
+## Purpose
 
-This document defines the **CI policy semantics** used to evaluate OpenPAKT security findings within continuous integration pipelines.
+This document defines a minimal, deterministic model for evaluating OpenPAKT findings in CI.
 
-CI policies enable automated enforcement of security requirements based on finding severity and taxonomy categories.
+The v0.1 model provides a tool-independent way to determine pass/fail outcomes from normalized findings.
 
-## Design Goals
+## Scope
 
-CI policy semantics are designed to:
+This document defines:
 
-- enable deterministic CI pipeline evaluation
-- support consistent enforcement across tools
-- remain simple and portable
-- allow flexible policy configuration
+- a minimal CI policy input shape
+- deterministic pass/fail evaluation rules
+- deterministic handling for ignored severities and ignored finding types
+- severity threshold behavior aligned to the OpenPAKT severity model
+- compatibility guidance for CI systems and external reporting formats
 
-## Specification
+This document does **not** define:
 
-CI policies operate on OpenPAKT findings and determine whether a build should pass, fail, or report warnings.
+- a policy DSL or query language
+- scanner normalization logic
+- taxonomy or severity definitions (see dedicated specification documents)
+- SARIF mapping
+- provenance or registry semantics
+- implementation-specific workflow logic
 
-Detailed policy evaluation rules will be defined in future revisions.
+## Design goals
 
-## Examples
+The v0.1 CI policy evaluation semantics are designed to be:
 
-Examples of CI policy evaluation will be included in future revisions of the OpenPAKT specification.
+- minimal
+- deterministic
+- implementation-agnostic
+- CI-friendly
+- compatible with simple pipeline gate behavior
 
-## Compatibility Considerations
+## Normative guidance
 
-CI policy semantics are designed to integrate with common CI systems such as GitHub Actions, GitLab CI, and Azure Pipelines.
+- CI policy evaluation **MUST** operate on normalized OpenPAKT findings.
+- Evaluators **MUST** use severity ordering from the OpenPAKT severity model: `critical > high > medium > low > informational`.
+- Policies **MUST** define `fail_on`.
+- Policies **MAY** define `ignore_severities`.
+- Policies **MAY** define `ignore_types`.
+- Evaluators **MUST** exclude ignored findings from fail/pass evaluation.
+- A build **MUST** fail if at least one non-ignored finding has severity at or above `fail_on`.
+- A build **MUST** pass if no non-ignored finding has severity at or above `fail_on`.
+- Evaluators **MUST NOT** use tool-specific extensions to alter the normative pass/fail outcome.
+- Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`), `fail_on`, and matched finding identifiers.
+
+## Policy input model (v0.1)
+
+A v0.1 policy input uses three concepts:
+
+- `fail_on` (required): severity threshold for failing the build
+- `ignore_severities` (optional): list of severities to exclude
+- `ignore_types` (optional): list of finding `type` values to exclude
+
+### Example policy input (YAML)
+
+```yaml
+fail_on: high
+ignore_severities:
+  - informational
+ignore_types:
+  - prompt_injection_low_confidence
+```
+
+## Evaluation model
+
+Given:
+
+- a policy `P`
+- a normalized findings list `F`
+
+evaluation proceeds as follows:
+
+1. Start with all findings in `F`.
+2. Remove findings where `severity` is listed in `P.ignore_severities`.
+3. Remove findings where `type` is listed in `P.ignore_types`.
+4. From the remaining findings, select findings with `severity >= P.fail_on` using OpenPAKT severity ordering.
+5. If one or more findings match step 4, decision is `fail`; otherwise decision is `pass`.
+
+If `ignore_severities` or `ignore_types` are omitted, evaluators **MUST** treat them as empty sets.
+
+## Deterministic severity threshold behavior
+
+Severity comparison **MUST** use this strict ranking:
+
+1. `critical`
+2. `high`
+3. `medium`
+4. `low`
+5. `informational`
+
+For threshold checks, a finding meets `fail_on` when its severity rank is equal to or higher than the threshold rank.
+
+Examples:
+
+- with `fail_on: medium`, severities `medium`, `high`, and `critical` meet the threshold
+- with `fail_on: high`, only `high` and `critical` meet the threshold
+
+## Deterministic ignore handling
+
+Ignore logic applies before threshold comparison.
+
+A finding is ignored when at least one of the following is true:
+
+- its `severity` is in `ignore_severities`
+- its `type` is in `ignore_types`
+
+If both ignore lists are present, evaluators **MUST** treat ignore matching as logical OR.
+
+Ignored findings:
+
+- **MUST NOT** contribute to threshold matching
+- **MAY** be reported as excluded in implementation-specific output
+- **MUST NOT** change the normative pass/fail rule
+
+## Compatibility guidance
+
+### CI system compatibility
+
+Implementations in CI systems (for example GitHub Actions, GitLab CI, and Azure Pipelines) **SHOULD** preserve the normative evaluation order and pass/fail rules in this document.
+
+The CI platform exit status **SHOULD** be derived directly from the policy decision:
+
+- `pass` -> successful job/stage
+- `fail` -> failed job/stage
+
+### External reporting compatibility
+
+When exporting results to external reporting formats, producers **SHOULD** preserve:
+
+- the original policy inputs used for evaluation
+- the final decision (`pass`/`fail`)
+- the set of matching non-ignored finding identifiers
+
+Export behavior **MUST NOT** redefine OpenPAKT evaluation semantics.
+
+## Deterministic examples
+
+### Example findings (normalized)
+
+```yaml
+findings:
+  - id: f-001
+    type: tool_abuse_privilege_escalation
+    severity: high
+  - id: f-002
+    type: prompt_injection_low_confidence
+    severity: medium
+  - id: f-003
+    type: policy_observability_gap
+    severity: informational
+```
+
+### Evaluation examples
+
+| Policy input | Non-ignored findings | Threshold matches | Decision |
+|---|---|---|---|
+| `fail_on: high` | `f-001`, `f-002`, `f-003` | `f-001` | `fail` |
+| `fail_on: high`, `ignore_types: [prompt_injection_low_confidence]` | `f-001`, `f-003` | `f-001` | `fail` |
+| `fail_on: critical`, `ignore_severities: [informational]` | `f-001`, `f-002` | none | `pass` |
+| `fail_on: medium`, `ignore_severities: [high, medium]` | `f-003` | none | `pass` |
+
+## Versioning and compatibility notes
+
+This document defines the minimal CI policy evaluation semantics for OpenPAKT v0.1.
+
+Future versions may extend policy expressiveness, but v0.1 implementations should treat this evaluation model as the normative baseline for deterministic pass/fail behavior.
