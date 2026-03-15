@@ -210,7 +210,7 @@ Agents must not rename existing taxonomy identifiers or schema fields unless exp
 
 ## Relationship to Detektor
 
-OpenPAKT is designed to support **AI agent security scanners** such as the Detektor CLI reference implementation.
+OpenPAKT is designed to support **AI agent security scanners** such as the [Detektor CLI](https://github.com/Meisterware/detektor) reference implementation.
 
 However, Detektor is developed **in a separate repository**.
 
