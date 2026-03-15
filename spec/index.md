@@ -50,6 +50,6 @@ Historical versions of the specification are stored in the `archive/` directory.
 
 ## Reference Implementation
 
-The **Detektor CLI** is the reference implementation of the OpenPAKT specification.
+The **[Detektor CLI](https://github.com/Meisterware/detektor)** is the reference implementation of the OpenPAKT specification.
 
 Detektor demonstrates how OpenPAKT findings, scenarios, and CI policy validation can be implemented in practice.
