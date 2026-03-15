@@ -88,10 +88,10 @@ evidence:
 ### CI threshold style example
 
 ```txt
-fail-on: high
+fail_on: high
 ```
 
-Expected deterministic behaviour for `fail-on: high`:
+Expected deterministic behaviour for `fail_on: high`:
 
 - `critical` -> fail build
 - `high` -> fail build
