@@ -45,21 +45,22 @@ The v0.1 CI policy evaluation semantics are designed to be:
 ## Normative guidance
 
 - CI policy evaluation **MUST** operate on normalized OpenPAKT findings.
+- If input findings are malformed or not normalized (for example missing required finding fields or unsupported severity/type values), evaluators **MUST** stop evaluation with an `invalid-policy` result (no pass/fail decision is produced).
 - Evaluators **MUST** apply the severity ordering defined in the OpenPAKT severity model and referenced in this document.
 - Policies **MUST** define `fail_on`, and the value **MUST** be one of the severity levels defined in the OpenPAKT severity model.
 - Evaluators **MUST** treat policies with a missing `fail_on` key or unsupported `fail_on` value as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
 - Policies **MAY** define `ignore_severities`.
 - Policies **MAY** define `ignore_types`.
-- Policies **MUST NOT** include unknown top-level policy keys.
-- If present, `ignore_severities` **MUST** be an array of strings, and values **MUST** be severity levels defined in the OpenPAKT severity model.
-- If present, `ignore_types` **MUST** be an array of strings, and values **MUST** be canonical taxonomy identifiers defined in the OpenPAKT taxonomy specification.
-- Evaluators **MUST** treat policies with unknown top-level keys, non-array `ignore_severities`/`ignore_types`, or unsupported `ignore_severities`/`ignore_types` values as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
+- Evaluators **MUST** ignore unknown top-level policy keys.
+- If present, `ignore_severities` **MUST** be an array of strings; entries that are not severity levels defined in the OpenPAKT severity model **MUST** be ignored.
+- If present, `ignore_types` **MUST** be an array of strings; entries that are not canonical taxonomy identifiers defined in the OpenPAKT taxonomy specification **MUST** be ignored.
+- Evaluators **MUST** treat non-array `ignore_severities`/`ignore_types` values as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
 - Evaluators **MUST** exclude ignored findings from fail/pass evaluation.
 - A build **MUST** fail if at least one non-ignored finding has severity at or above `fail_on`.
 - A build **MUST** pass if no non-ignored finding has severity at or above `fail_on`.
 - Evaluators **MUST NOT** use tool-specific extensions to alter the normative pass/fail outcome.
 - Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`/`invalid-policy`), `fail_on`, and matched finding identifiers.
-- If matched finding identifiers contain duplicates, evaluators **MUST** preserve duplicates in the original finding order in the machine-readable result.
+- Evaluators **MUST** emit matched finding identifiers in the original finding order from the evaluated findings list and **MUST** preserve duplicates.
 - For `invalid-policy` decisions, machine-readable results **MUST** set `fail_on` to `null` and matched finding identifiers to an empty array.
 
 ## Policy input model (v0.1)
@@ -70,9 +71,9 @@ A v0.1 policy input uses three concepts:
 - `ignore_severities` (optional): list of severities to exclude
 - `ignore_types` (optional): list of finding `type` values to exclude
 
-Policy keys are case-sensitive and **MUST** appear exactly as defined. Unknown top-level keys are invalid in v0.1 policies.
+Policy keys are case-sensitive and **MUST** appear exactly as defined. Unknown top-level keys are allowed and **MUST** be ignored.
 
-If present, `ignore_severities` and `ignore_types` **MUST** be arrays of strings and values **MUST** use canonical identifiers defined by the severity and taxonomy specifications.
+If present, `ignore_severities` and `ignore_types` **MUST** be arrays of strings. Entries that do not use canonical identifiers defined by the severity and taxonomy specifications **MUST** be ignored.
 
 ### Example policy input (YAML)
 
