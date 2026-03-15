@@ -60,6 +60,7 @@ The v0.1 CI policy evaluation semantics are designed to be:
 - Evaluators **MUST NOT** use tool-specific extensions to alter the normative pass/fail outcome.
 - Evaluators **SHOULD** return a machine-readable evaluation result that includes at least: decision (`pass`/`fail`/`invalid-policy`), `fail_on`, and matched finding identifiers.
 - If matched finding identifiers contain duplicates, evaluators **MUST** preserve duplicates in the original finding order in the machine-readable result.
+- For `invalid-policy` decisions, machine-readable results **MUST** set `fail_on` to `null` and matched finding identifiers to an empty array.
 
 ## Policy input model (v0.1)
 
@@ -152,7 +153,7 @@ When exporting results to external reporting formats, producers **SHOULD** prese
 
 - the original policy inputs used for evaluation
 - the final decision (`pass`/`fail`/`invalid-policy`)
-- the set of matching non-ignored finding identifiers
+- the ordered list of matching non-ignored finding identifiers (preserving duplicates in original finding order)
 
 Export behavior **MUST NOT** redefine OpenPAKT evaluation semantics.
 
