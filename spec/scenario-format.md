@@ -72,7 +72,7 @@ An OpenPAKT v0.1 scenario supports the following fields:
 | `type` | string | Yes | Canonical OpenPAKT taxonomy identifier for the tested attack category. |
 | `attack_input` | string | Yes | The adversarial input content supplied to the tested agent interaction boundary. |
 | `expected_behavior` | string | Yes | Expected safe agent outcome (for example `reject_execution`, `request_clarification`, `safe_refusal`). |
-| `validation_criteria` | array of strings | Yes | One or more string checks used to determine pass/fail behaviour. |
+| `validation_criteria` | array of strings | Yes | One or more validation conditions used to determine pass/fail behaviour. |
 | `metadata` | object | No | Optional extension container for vendor-specific, non-interoperability-critical metadata. |
 
 ### `expected_behavior` guidance
