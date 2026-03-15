@@ -72,7 +72,7 @@ fail_on: high
 ignore_severities:
   - informational
 ignore_types:
-  - prompt_injection_low_confidence
+  - prompt_injection
 ```
 
 ## Evaluation model
@@ -157,10 +157,10 @@ findings:
     type: tool_abuse_privilege_escalation
     severity: high
   - id: f-002
-    type: prompt_injection_low_confidence
+    type: prompt_injection
     severity: medium
   - id: f-003
-    type: policy_observability_gap
+    type: sensitive_data_exposure
     severity: informational
 ```
 
@@ -169,7 +169,7 @@ findings:
 | Policy input | Non-ignored findings | Threshold matches | Decision |
 |---|---|---|---|
 | `fail_on: high` | `f-001`, `f-002`, `f-003` | `f-001` | `fail` |
-| `fail_on: high`, `ignore_types: [prompt_injection_low_confidence]` | `f-001`, `f-003` | `f-001` | `fail` |
+| `fail_on: high`, `ignore_types: [prompt_injection]` | `f-001`, `f-003` | `f-001` | `fail` |
 | `fail_on: critical`, `ignore_severities: [informational]` | `f-001`, `f-002` | none | `pass` |
 | `fail_on: medium`, `ignore_severities: [high, medium]` | `f-003` | none | `pass` |
 
