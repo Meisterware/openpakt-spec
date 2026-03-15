@@ -49,6 +49,9 @@ The v0.1 CI policy evaluation semantics are designed to be:
 - Policies **MUST** define `fail_on`, and the value **MUST** be one of the severity levels defined in the OpenPAKT severity model.
 - Policies **MAY** define `ignore_severities`.
 - Policies **MAY** define `ignore_types`.
+- If present, `ignore_severities` values **MUST** be severity levels defined in the OpenPAKT severity model.
+- If present, `ignore_types` values **MUST** be canonical taxonomy identifiers defined in the OpenPAKT taxonomy specification.
+- Evaluators **MUST** treat policies containing unsupported `ignore_severities` or `ignore_types` values as invalid input and **MUST NOT** continue evaluation with those values.
 - Evaluators **MUST** exclude ignored findings from fail/pass evaluation.
 - A build **MUST** fail if at least one non-ignored finding has severity at or above `fail_on`.
 - A build **MUST** pass if no non-ignored finding has severity at or above `fail_on`.
@@ -64,6 +67,8 @@ A v0.1 policy input uses three concepts:
 - `ignore_types` (optional): list of finding `type` values to exclude
 
 Policy keys are case-sensitive and **MUST** appear exactly as defined.
+
+If present, `ignore_severities` and `ignore_types` values **MUST** use canonical identifiers defined by the severity and taxonomy specifications.
 
 ### Example policy input (YAML)
 
@@ -102,7 +107,7 @@ Severity comparison **MUST** use this strict ranking:
 4. `low`
 5. `informational`
 
-For threshold checks, a finding meets `fail_on` when its severity rank is equal to or higher than the threshold rank.
+For threshold checks, a finding meets `fail_on` when its severity is the same as the threshold or appears to the left of the threshold in the ordered list above.
 
 Examples:
 
