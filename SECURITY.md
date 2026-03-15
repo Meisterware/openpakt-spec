@@ -7,7 +7,7 @@ If you discover a security vulnerability related to:
 - the OpenPAKT specification
 - example artifacts
 - reference implementations
-- the Detektor scanner (when available)
+- the [Detektor](https://github.com/Meisterware/detektor) scanner
 
 please report it responsibly.
 

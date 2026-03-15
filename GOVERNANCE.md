@@ -20,4 +20,4 @@ OpenPAKT follows **semantic versioning**.
 
 ## Reference Implementation
 
-The **Detektor CLI** serves as the reference implementation for the OpenPAKT specification.
+The **[Detektor CLI](https://github.com/Meisterware/detektor)** serves as the reference implementation for the OpenPAKT specification.
