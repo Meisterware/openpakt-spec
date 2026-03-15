@@ -37,6 +37,8 @@ The v0.1 scenario format is designed to be:
 - A scenario definition **MUST** be serialised as YAML for OpenPAKT v0.1 examples and interchange.
 - Scenario field names **MUST** use `snake_case`.
 - A conformant scenario **MUST** include all required fields defined in this document.
+- A conformant scenario **MUST** include a `schema_version` value.
+- For OpenPAKT v0.1 scenarios, `schema_version` **MUST** be `"0.1"`.
 - Scenario `type` values **MUST** align with canonical OpenPAKT taxonomy identifiers.
 - Scenario validations that can be evaluated automatically **SHOULD** be represented in machine-evaluable form.
 - Scenario authors **SHOULD** avoid environment-dependent expectations when deterministic assertions are possible.
@@ -48,6 +50,7 @@ The v0.1 scenario format is designed to be:
 
 An OpenPAKT v0.1 scenario supports the following fields:
 
+- `schema_version` (required)
 - `id` (required)
 - `name` (required)
 - `description` (required)
@@ -61,6 +64,7 @@ An OpenPAKT v0.1 scenario supports the following fields:
 
 | Field | Type | Required | Description |
 |---|---|---|---|
+| `schema_version` | string | Yes | OpenPAKT scenario schema version (for v0.1, use `"0.1"`). |
 | `id` | string | Yes | Stable scenario identifier unique within the scenario set. |
 | `name` | string | Yes | Short human-readable scenario name. |
 | `description` | string | Yes | Concise description of the scenario intent. |
@@ -99,6 +103,7 @@ The following are out of scope for this document:
 ## YAML example
 
 ```yaml
+schema_version: "0.1"
 id: scenario-prompt-injection-001
 name: prompt_injection_user_input
 description: Agent is tested against direct prompt injection in user-supplied text.
