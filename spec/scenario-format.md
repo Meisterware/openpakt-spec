@@ -34,7 +34,8 @@ The v0.1 scenario format is designed to be:
 
 ## Normative guidance
 
-- A scenario definition **MUST** be serialised as YAML for OpenPAKT v0.1 examples and interchange.
+- OpenPAKT v0.1 examples **MUST** use YAML.
+- Implementations **MAY** support equivalent representations, provided the semantics of the core scenario fields are preserved.
 - Scenario field names **MUST** use `snake_case`.
 - A conformant scenario **MUST** include all required fields defined in this document.
 - A conformant scenario **MUST** include a `schema_version` value.
@@ -65,19 +66,24 @@ An OpenPAKT v0.1 scenario supports the following fields:
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `schema_version` | string | Yes | OpenPAKT scenario schema version (for v0.1, use `"0.1"`). |
-| `id` | string | Yes | Stable scenario identifier unique within the scenario set. |
+| `id` | string | Yes | Stable scenario identifier unique within the producing scenario collection or test suite. |
 | `name` | string | Yes | Short human-readable scenario name. |
 | `description` | string | Yes | Concise description of the scenario intent. |
 | `type` | string | Yes | Canonical OpenPAKT taxonomy identifier for the tested attack category. |
 | `attack_input` | string | Yes | The adversarial input content supplied to the tested agent interaction boundary. |
 | `expected_behavior` | string | Yes | Expected safe agent outcome (for example `reject_execution`, `request_clarification`, `safe_refusal`). |
-| `validation_criteria` | array | Yes | One or more validation checks used to determine pass/fail behaviour. |
+| `validation_criteria` | array of strings | Yes | One or more string checks used to determine pass/fail behaviour. |
 | `metadata` | object | No | Optional extension container for vendor-specific, non-interoperability-critical metadata. |
+
+### `expected_behavior` guidance
+
+- `expected_behavior` values **SHOULD** be concise and stable within a scenario suite.
+- OpenPAKT v0.1 does not define a mandatory global enumeration for `expected_behavior`.
 
 ### `validation_criteria` guidance
 
-- `validation_criteria` **MUST** contain at least one entry.
-- Each entry **MUST** define a verifiable condition.
+- `validation_criteria` **MUST** contain at least one string entry.
+- Each entry **MUST** describe a verifiable condition.
 - Criteria **SHOULD** be machine-evaluable where possible to support CI automation.
 - Criteria that require manual interpretation **MAY** be included, but automated criteria are preferred for deterministic execution.
 
