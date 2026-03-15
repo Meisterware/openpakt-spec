@@ -47,6 +47,7 @@ The v0.1 CI policy evaluation semantics are designed to be:
 - CI policy evaluation **MUST** operate on normalized OpenPAKT findings.
 - Evaluators **MUST** apply the severity ordering defined in the OpenPAKT severity model and referenced in this document.
 - Policies **MUST** define `fail_on`, and the value **MUST** be one of the severity levels defined in the OpenPAKT severity model.
+- Evaluators **MUST** treat policies with a missing `fail_on` key or unsupported `fail_on` value as invalid input and **MUST** stop evaluation with an invalid-policy result (no pass/fail decision is produced).
 - Policies **MAY** define `ignore_severities`.
 - Policies **MAY** define `ignore_types`.
 - If present, `ignore_severities` values **MUST** be severity levels defined in the OpenPAKT severity model.
